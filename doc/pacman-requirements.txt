@@ -1,0 +1,155 @@
+JPacman Version 3
+Requirements
+Arie van Deursen, CWI & TU Delft, 2005-2008
+$Id: pacman-requirements.txt,v 1.7 2008/02/02 10:01:10 arie Exp $
+
+Intro: Requirements for JPacman Version 3.
+JPacman 3 is a very simple JPacman derivative, to be used for
+educational purposes. Essential features such as multiple levels and
+multiple players, energizers and different monster types are postponed
+for later releases (and may be implemented by students as an
+exercise).  Furthermore, to give the game a somewhat different flavor,
+JPacman deviates from standard Pacman behavior in several ways.  This
+document describes the requirements as a series of use cases, and
+explains what the GUI should look like.
+
+Background: Domain Analysis
+The JPacman game is played on a rectangular board.  A cell on the
+board can be empty, or can contain one of four types of guests, namely
+the Player itself, one of the several monsters, a piece of food, or a
+wall. Moveable guests such as the player and the monster can make single
+step horizontal or vertical moves. A player can move over food and eat
+it, but a monster cannot move across food. If a player and a monster
+meet at the same cell, the player dies and the game is over.  The
+player wins the game once he or she has eaten all food.
+
+UC1: Start use case.
+Actor: player
+1. The user launches the pacman game.
+2. Once started, a pacman board is shown, including a "Start" button.
+   The user begins playing after pressing the Start button.
+3. The moment the Start button is pressed, the game begins, the monsters
+   start moving, and the player can start playing.
+   
+UC2: Simple move use case.
+Actor: player
+1. Entry condition: The player is alive and playing
+2. Each press on one of the arrow keys moves the player in the
+   appropriate direction (up, down, left, right).  If the target cell
+   is empty and not beyond the border, the move is possible.  If the
+   target cell is a wall element the move will not be possible.
+
+UC3: Eat food use case.
+Actor: player
+1. Entry condition: The player is alive and playing
+2. The player moves the pacman to a cell containing food.
+3. The number of points earned by the player is increased by one.
+4. The food disappears from the cell.
+4. If the food eaten was the last remaining piece, the player has won the game
+   and the game is over.
+
+UC4: Meet monster use case.
+Actor: player
+1. Entry condition: The player is alive and playing
+2. The player moves the pacman to a cell containing a monster
+3. The player dies and this game is over.
+
+UC5: Simple monster move use case.
+Actor: monster
+1. Entry condition: The player is alive and playing
+2. At regular intervals (every 50 milliseconds) one of the monsters
+   makes a random move (up, down, left, right) If the target cell is
+   empty and not beyond the border, the move is possible.  If the
+   target cell is a wall or food element the move will not be
+   possible.
+
+UC6: Monster meets player use case.
+Actor: monster
+1. Entry condition: The player is alive and playing
+2. One of the monsters is to be moved to the cell occupied by the
+   player.
+3. The player dies and this game is over.
+
+UC7: Suspend use case.
+Actor: player
+1. Entry condition: The player is alive and playing
+2. The player presses the quit button in order to suspend playing the
+   game.
+3. During suspension, no moves are possible, neither from the player
+   nor from the monsters.
+4. Pressing the start button re-activates the game.
+
+UC8: Exit use case.
+1. At any time the user can terminate the game by pressing the "Exit"
+   button, after which the pacman board and gui disappear.
+
+UC9: Restart game use case.
+Actor: player
+1. The game is over (the player won or the player died)
+2. The user can press the start button to restart another game.
+
+
+GUI: User Interface Requirements.
+The user interface for JPacman is relatively simple.  The game size is
+20 by 20 cells, and special (animated) images or colored squares are
+used for the monster, food, empty cells, and wall cells on the board.
+The direction of the last (attempted) move is reflected in the image
+used for the player. The GUI furthermore contains a "Start", "Exit",
+and "Suspend" button (at the bottom of the GUI), as well as an
+indicator for the amount of food eaten and the game's overall state
+(playing, game won, player died, ready to start the play).  The state
+indicator field can also be used to display helpful information on
+possible keys to press (e.g., press start, use arrow keys).
+
+DEV: Development Environment Requirements.
+JPacman should be developed in Java. It should be set up so that it
+can easily be used by (the latest versions of) standard (open source)
+Java development tools, such as Eclpise, ant, maven, and JUnit. To
+allow for working with maven, the maven standard directory structure
+should be used.  Since the educational purposes include testing,
+JPacman should be delivered with an extensive test suite.
+
+
+FR: Feature Requests.
+Listed below are a number of feature requests that are candidate for
+implementation in the next release.
+
+FR01: Reading Maps from File.
+Instead of using one hard coded map for the game, allow reading in 
+maps (in easy to write ASCII format) from file.
+
+FR02: Wormholes.
+Allowing moving across the border, ending up at the other side of the
+board.
+
+FR03: Different Monster Types.
+Provide support for different monster types, such Inky, Pinkey, etc,
+in the traditional pacman, with different characteristics in terms of
+speed and player finding capabilities.
+
+FR04: Fruits
+Introduce fruits, which, once eaten, allow the player to eat monsters.
+
+FR05: Applet Version
+Allow JPacman to be run as an applet and invoked from a browser.
+
+FR06: Ajax Version.
+With Google's GWT it might be possible to generate a Javascript version
+of JPacman, which would be able to run in the browser without the need
+for a Java plugin. 
+
+FR07: Score in steps or time.
+Maintain not just a food counter, but a score in time as well as in
+number of steps made.
+
+FR08: High Score List.
+Extend JPacman with a high score list
+
+FR09: Multi-Player Pacman.
+Allow multiple players to enter the maze -- perhaps they'd like to
+eat each other?
+
+FR10: Save Game.
+Allow saving the state of a game, allowing resuming the same game later.
+This is related to capture-and-play-back functionality, which would be
+good for tool-supported acceptance testing as well.
