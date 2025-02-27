@@ -47,9 +47,34 @@
         <version>2.3</version>
         <configuration>
           <forkMode>pertest</forkMode>
-          <argLine>-enableassertions</argLine>
+          <!-- Specify "${argLine}" for compatibility with JaCoCo. -->
+          <argLine>${argLine} -enableassertions</argLine>
         </configuration>
       </plugin>
+
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.12</version>
+        <executions>
+          <execution>
+            <id>prepare-agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>report</id>
+            <!-- Bind the report "maven site" goal to the "test" phase
+              instead of the default "verify" phase. -->
+            <phase>test</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
   </build>
 
@@ -70,6 +95,11 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
+      </plugin>
+      <!-- Add the JaCoCo coverage report to the Project Reports website section. -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </reporting>
