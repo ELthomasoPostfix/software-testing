@@ -24,3 +24,8 @@ jobs:
     # Run maven commands.
     - run: mvn -e -X package
     - run: mvn -e -X clean site
+    - uses: actions/upload-artifact@v4
+      if: failure()
+      with:
+        name: Linux_Maven_Target
+        path: target/
