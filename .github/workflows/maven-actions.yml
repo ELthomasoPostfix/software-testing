@@ -10,20 +10,25 @@ on:
 
 
 jobs:
-
   linux:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
     - run: sudo apt-get update
     # -y assumes yes to all prompts; install packages without confirmation.
+    # Install maven build system dependencies.
     - run: sudo apt-get install -y openjdk-11-jdk=11.0.26+4-1ubuntu1~24.04 maven=3.8.7-2
+    # Install auxiliary dependencies.
+    - run: sudo apt-get install xvfb
+
     # Check versions of installed packages.
     - run: java --version
     - run: mvn --version
+
     # Run maven commands.
-    - run: mvn -e -X package
-    - run: mvn -e -X clean site
+    # Use Xvfb to circumvent having to run UI dependencies in headless mode during testing.
+    - run: xvfb-run mvn -e -X package
+    - run: xvfb-run mvn -e -X clean site
     - uses: actions/upload-artifact@v4
       if: failure()
       with:
