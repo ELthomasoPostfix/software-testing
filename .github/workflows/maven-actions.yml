@@ -1,0 +1,30 @@
+name: ci_maven
+
+on:
+  # Allow manual workflow triggering
+  workflow_dispatch:
+  push:
+    paths:
+      - "*.java"
+      - "pom.xml"
+
+
+jobs:
+
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - run: sudo apt-get update
+    # For the sake of completeness, purge other jdk versions.
+    - run: sudo apt-get purge -y openjdk*
+    # -y assumes yes to all prompts; install packages without confirmation.
+    - run: sudo apt-get install -y \
+        openjdk-11-jdk=11.0.26+4-1ubuntu1~24.04 \
+        maven
+    # Check versions of installed packages.
+    - run: java --version
+    - run: mvn --version
+    # Run maven commands.
+    - run: mvn package
+    - run: mvn site
