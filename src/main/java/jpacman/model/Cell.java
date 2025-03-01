@@ -194,5 +194,6 @@ public class Cell {
      */
     public boolean adjacent(Cell otherCell) {
         // implementation logic to be written later
+        return true;
     }
 }

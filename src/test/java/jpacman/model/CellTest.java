@@ -1,6 +1,8 @@
 package jpacman.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -53,6 +55,55 @@ public class CellTest {
         Cell cell11 = aBoard.getCell(1, 1);
         Cell cell12 = aBoard.getCell(1, 2);
         assertEquals(cell12, cell11.cellAtOffset(0, 1));
+    }
+
+    @Test
+    public void testAdjacentAbove() {
+        Cell cellA = new Cell(2, 2, aBoard);
+        Cell cellB = new Cell(1, 2, aBoard);
+        assertTrue(cellA.adjacent(cellB));
+    }
+
+    @Test
+    public void testAdjacentBelow() {
+        Cell cellA = new Cell(2, 2, aBoard);
+        Cell cellB = new Cell(3, 2, aBoard);
+        assertTrue(cellA.adjacent(cellB));
+    }
+
+    @Test
+    public void testAdjacentLeft(){
+        Cell cellA = new Cell(1, 2, aBoard);
+        Cell cellB = new Cell(1, 1, aBoard);
+        assertTrue(cellA.adjacent(cellB));
+    }
+
+    @Test
+    public void testAdjacentRight(){
+        Cell cellA = new Cell(1, 1, aBoard);
+        Cell cellB = new Cell(1, 2, aBoard);
+        assertTrue(cellA.adjacent(cellB));
+    }
+
+    @Test
+    public void testNotAdjacentDiagonalLeft() {
+        Cell cellA = new Cell(1, 1, aBoard);
+        Cell cellB = new Cell(2, 2, aBoard);
+        assertFalse(cellA.adjacent(cellB));
+    }
+
+    @Test
+    public void testNotAdjacentDiagonalRight() {
+        Cell cellA = new Cell(1, 2, aBoard);
+        Cell cellB = new Cell(2, 1, aBoard);
+        assertFalse(cellA.adjacent(cellB));
+    }
+
+    @Test
+    public void testNotAdjacentFarAwayRow() {
+        Cell cellA = new Cell(1, 1, aBoard);
+        Cell cellB = new Cell(1, 5, aBoard);
+        assertFalse(cellA.adjacent(cellB));
     }
 
 }
