@@ -193,7 +193,8 @@ public class Cell {
      * @return true if the other cell is immediately adjacent
      */
     public boolean adjacent(Cell otherCell) {
-        // implementation logic to be written later
-        return true;
+        int dx = Math.abs(this.x - otherCell.x);
+        int dy = Math.abs(this.y - otherCell.y);
+        return (dx == 1 && dy == 0) || (dx == 0 && dy == 1);
     }
 }
