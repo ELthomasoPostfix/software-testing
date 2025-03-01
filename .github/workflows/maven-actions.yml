@@ -22,5 +22,5 @@ jobs:
     - run: java --version
     - run: mvn --version
     # Run maven commands.
-    - run: mvn -eX package
-    - run: mvn -eX clean site
+    - run: mvn -e -X package
+    - run: mvn -e -X clean site
