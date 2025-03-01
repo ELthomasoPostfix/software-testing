@@ -15,6 +15,16 @@
       <version>4.4</version>
       <scope>test</scope>
     </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.jmock/jmock-junit4 -->
+    <dependency>
+        <groupId>org.jmock</groupId>
+        <artifactId>jmock-junit4</artifactId>
+        <!-- JMock v2.6.0-RC1 targets JUnit 4.5+ so limit
+          the JMock version for compatibility reasons. -->
+        <version>2.5.1</version>
+        <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
