@@ -16,8 +16,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - run: sudo apt-get update
-    # For the sake of completeness, purge other jdk versions.
-    - run: sudo apt-get purge -y openjdk*
     # -y assumes yes to all prompts; install packages without confirmation.
     - run: sudo apt-get install -y \
         openjdk-11-jdk=11.0.26+4-1ubuntu1~24.04 \
