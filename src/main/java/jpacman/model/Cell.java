@@ -195,6 +195,7 @@ public class Cell {
     public boolean adjacent(Cell otherCell) {
         int dx = Math.abs(this.x - otherCell.x);
         int dy = Math.abs(this.y - otherCell.y);
+        assert invariant();
         return (dx == 1 && dy == 0) || (dx == 0 && dy == 1);
     }
 }
