@@ -12,7 +12,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.4</version>
+      <version>4.5</version>
       <scope>test</scope>
     </dependency>
 
@@ -20,9 +20,8 @@
     <dependency>
         <groupId>org.jmock</groupId>
         <artifactId>jmock-junit4</artifactId>
-        <!-- JMock v2.6.0-RC1 targets JUnit 4.5+ so limit
-          the JMock version for compatibility reasons. -->
-        <version>2.5.1</version>
+        <!-- JMock v2.6.0-RC1+ targets JUnit 4.5+ -->
+        <version>2.13.1</version>
         <scope>test</scope>
     </dependency>
   </dependencies>
@@ -54,12 +53,18 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.3</version>
+        <version>3.5.2</version>
         <configuration>
           <forkMode>pertest</forkMode>
           <!-- Specify "${argLine}" for compatibility with JaCoCo. -->
           <argLine>${argLine} -enableassertions</argLine>
         </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.21.0</version>
       </plugin>
 
       <plugin>
@@ -90,17 +95,9 @@
 
   <reporting>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <!-- Specify an older version of this plugin to resolve version
-          incompatibility issues with the "maven site" plugin. -->
-        <version>2.9</version>
-      </plugin>
       <plugin> <!-- JUnit report -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-report-plugin</artifactId>
-        <version>2.3</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
