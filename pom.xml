@@ -9,20 +9,22 @@
   <name>jpacman</name>
  
   <dependencies>
+    <!-- https://mvnrepository.com/artifact/org.jmock/jmock-junit4 -->
+    <!-- JMock must appear before JUnit in <dependencies> because JMock
+      specifies hamcrest imports required by JUnit. -->
+    <dependency>
+      <groupId>org.jmock</groupId>
+      <artifactId>jmock-junit4</artifactId>
+      <!-- JMock v2.6.0-RC1+ targets JUnit 4.5+ -->
+      <version>2.13.1</version>
+      <scope>test</scope>
+    </dependency>
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.5</version>
       <scope>test</scope>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.jmock/jmock-junit4 -->
-    <dependency>
-        <groupId>org.jmock</groupId>
-        <artifactId>jmock-junit4</artifactId>
-        <!-- JMock v2.6.0-RC1+ targets JUnit 4.5+ -->
-        <version>2.13.1</version>
-        <scope>test</scope>
     </dependency>
   </dependencies>
 
