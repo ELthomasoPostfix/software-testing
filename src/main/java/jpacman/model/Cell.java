@@ -131,6 +131,11 @@ public class Cell {
      * @return true iff the cell is occupied.
      */
     public boolean isOccupied() {
+        /** A failing assertion, as per Assignment 01 Exercise 11.
+         * Always fail this function call.
+         */
+        // assert false; // FIXME
+
         return inhabitant != null;
     }
 
