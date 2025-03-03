@@ -59,7 +59,10 @@
         <configuration>
           <forkMode>pertest</forkMode>
           <!-- Specify "${argLine}" for compatibility with JaCoCo. -->
-          <argLine>${argLine} -enableassertions</argLine>
+          <argLine>${argLine}</argLine>
+          <!-- Set 'enableAssertions' to false to disable JVM assertions
+            during testing. See Assignment 01 Exercise 12. -->
+          <enableAssertions>true</enableAssertions>
         </configuration>
       </plugin>
 
