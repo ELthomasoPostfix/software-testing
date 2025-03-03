@@ -49,6 +49,7 @@ public class CellMockTest {
             oneOf(mockBoard).withinBorders(xb, yb); will(returnValue(true));
             // CellA.adjacent(CellB) Cell.invariant() call.
             oneOf(mockBoard).withinBorders(xa, ya); will(returnValue(true));
+            oneOf(mockBoard).withinBorders(xa, ya); will(returnValue(true));
         }});
 
         return mockBoard;

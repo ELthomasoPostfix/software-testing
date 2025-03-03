@@ -193,6 +193,7 @@ public class Cell {
      * @return true if the other cell is immediately adjacent
      */
     public boolean adjacent(Cell otherCell) {
+        assert invariant();
         int dx = Math.abs(this.x - otherCell.x);
         int dy = Math.abs(this.y - otherCell.y);
         assert invariant();
