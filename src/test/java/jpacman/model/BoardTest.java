@@ -2,6 +2,7 @@ package jpacman.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -112,5 +113,33 @@ public class BoardTest {
         // else: nothing to test -- no guarantees what so ever!
     }
 
+    @Test
+    public void testWithinBorders_ValidCase(){
+        // IN case: x and y within boundaries
+        assertTrue(theBoard.withinBorders(2, 5));
+    }
+
+    @Test
+    public void testWithinBorders_BoundaryCases(){
+        // ON cases: x and y on the limits
+        assertTrue(theBoard.withinBorders(0, 0));
+        assertTrue(theBoard.withinBorders(4, 9));
+    }
+
+    @Test
+    public void testWithinBorders_OffCases(){
+        // OFF cases: Just outside the valid area
+        assertFalse(theBoard.withinBorders(-1, 2));
+        assertFalse(theBoard.withinBorders(2, -1));
+        assertFalse(theBoard.withinBorders(5, 2));
+        assertFalse(theBoard.withinBorders(2, 10));
+    }
+
+    @Test
+    public void testWithinBorders_OutCases(){
+        // OUT cases: Far outside the valid area
+        assertFalse(theBoard.withinBorders(-10, -10));
+        assertFalse(theBoard.withinBorders(10, 10));
+    }
 
 }

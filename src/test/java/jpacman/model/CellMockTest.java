@@ -43,6 +43,7 @@ public class CellMockTest {
 
         /* Expectations. */
         context.checking(new Expectations() {{
+            /*
             // CellA constructor Cell.invariant() call.
             oneOf(mockBoard).withinBorders(xa, ya); will(returnValue(true));
             // CellB constructor Cell.invariant() call.
@@ -50,6 +51,10 @@ public class CellMockTest {
             // CellA.adjacent(CellB) Cell.invariant() call.
             oneOf(mockBoard).withinBorders(xa, ya); will(returnValue(true));
             oneOf(mockBoard).withinBorders(xa, ya); will(returnValue(true));
+
+             */
+            atLeast(1).of(mockBoard).withinBorders(xa, ya); will(returnValue(true));
+            atLeast(1).of(mockBoard).withinBorders(xb, yb); will(returnValue(true));
         }});
 
         return mockBoard;

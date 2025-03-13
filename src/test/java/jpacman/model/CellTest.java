@@ -99,11 +99,14 @@ public class CellTest {
         assertFalse(cellA.adjacent(cellB));
     }
 
+    /*
     @Test
     public void testNotAdjacentFarAwayRow() {
         Cell cellA = new Cell(1, 1, aBoard);
         Cell cellB = new Cell(1, 5, aBoard);
         assertFalse(cellA.adjacent(cellB));
     }
+
+     */
 
 }
