@@ -69,6 +69,23 @@ public class Food extends Guest {
         return true;
     }
 
+    /**
+     * The monster cannot eat this food cell. Modify the move's state to
+     * reflect the effect this would have. Precondition: the move is in its
+     * initialization stage.
+     *
+     * @see jpacman.model.Guest#meetMonster(jpacman.model.MonsterMove)
+     * @param theMove the move the monster intends to do.
+     * @return False, since such a move is not possible.
+     */
+    @Override
+    protected boolean meetMonster(MonsterMove theMove) {
+        assert foodInvariant();
+        assert theMove != null;
+        assert !theMove.initialized();
+        // "Moves to food are not possible", so return false.
+        return false;
+    }
 
     /**
      * @see jpacman.model.Guest#guestType()

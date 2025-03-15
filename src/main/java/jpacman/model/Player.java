@@ -108,6 +108,27 @@ public class Player extends MovingGuest {
         return false;
     }
 
+    /**
+     * The monster decided to bump into this player. Modify the move's state
+     * reflecting the fact that this will cause the player to die.
+     *
+     * @param theMove
+     *            move object representing intended move and its effects.
+     * @return false, the monster cannot occupy the player's cell.
+     *
+     * @see jpacman.model.Guest#meetMonster(jpacman.model.MonsterMove)
+     */
+    @Override
+    protected boolean meetMonster(MonsterMove theMove) {
+        assert playerInvariant();
+        assert theMove != null;
+        assert !theMove.initialized();
+        // "If a monster attempts to move to the cell occupied
+        // by the player, the player dies ..."
+        theMove.die();
+        // A Cell only supports one Guest object at a time, so return false.
+        return false;
+    }
 
     /**
      * @see jpacman.model.Guest#guestType()

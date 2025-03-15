@@ -31,6 +31,22 @@ public class Wall extends Guest {
     }
 
     /**
+     * The monster wants to occupy the wall's cell.
+     * @param aMove the move the monster wants to make.
+     * @return false, the monster cannot move here.
+     *
+     * @see jpacman.model.Guest#meetMonster(jpacman.model.MonsterMove)
+     */
+    @Override
+    public boolean meetMonster(MonsterMove aMove) {
+        assert guestInvariant();
+        assert aMove != null;
+        assert !aMove.initialized();
+        // A Cell only supports one Guest object at a time, so return false.
+        return false;
+    }
+
+    /**
      * @see jpacman.model.Guest#guestType()
      * @return A character encoding for the wall.
      */

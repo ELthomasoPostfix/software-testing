@@ -35,6 +35,26 @@ public class Monster extends MovingGuest {
     }
 
     /**
+     * Another monster wants to occupy this monster's state.
+     * Multiple monsters existing at once is supported.
+     * The move itself will not be possible.
+     *
+     * @param theMove
+     *            move object representing intended move and its effects.
+     * @return false, the monster cannot occupy another monster's cell.
+     *
+     * @see jpacman.model.Guest#meetMonster(jpacman.model.MonsterMove)
+     */
+    @Override
+    protected boolean meetMonster(MonsterMove theMove) {
+        assert guestInvariant();
+        assert theMove != null;
+        assert !theMove.initialized();
+        // A Cell only supports one Guest object at a time, so return false.
+        return false;
+    }
+
+    /**
      * @see jpacman.model.Guest#guestType()
      * @return Character encoding for a monster.
      */
