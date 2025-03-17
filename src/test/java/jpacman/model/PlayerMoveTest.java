@@ -129,17 +129,12 @@ public class PlayerMoveTest extends MoveTest {
         assertFalse(aPlayerMove.movePossible());
     }
 
-    /*
-    // This test already errors when trying to get the cell that is out of the board.
-    // A move to such a cell will therefor always error the code
     @Test
     public void testPlayerMoveOutOfBounds(){
-        Cell outOfBoundsCell = board.getCell(-1, 2); // Invalid position
-        aPlayerMove = new PlayerMove(player, outOfBoundsCell);
+        // A NULL Cell represents an out-of-bounds Cell w.r.t. the Board.
+        aPlayerMove = new PlayerMove(player, null);
         assertFalse(aPlayerMove.movePossible());
     }
-
-     */
 
 
 }
