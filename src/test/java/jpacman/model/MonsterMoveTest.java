@@ -37,11 +37,12 @@ public class MonsterMoveTest extends MoveTest {
     @Before
     public void setUp(){
         /* The Board is configured according to the drawing below.
-            .....
-            .....
-            ..EP.
-            ..WFM
-            .....
+            01234
+            .....0
+            ..P..1
+            .FME.2
+            ..W..3
+            .....4
 
             . = empty cell
             E = empty cell
@@ -52,11 +53,11 @@ public class MonsterMoveTest extends MoveTest {
         */
 
         board = new Board(5, 5); // A 5x5 board
-        emptyCell = board.getCell(2, 2); // Middle of the board
-        wallCell = board.getCell(2, 3);
-        foodCell = board.getCell(3, 3);
-        monsterCell = board.getCell(4, 3);
-        playerCell = board.getCell(3, 2);
+        playerCell  = board.getCell(2, 1); // Up
+        monsterCell = board.getCell(2, 2); // Middle of the board
+        wallCell    = board.getCell(2, 3); // Down
+        emptyCell   = board.getCell(3, 2); // Right
+        foodCell    = board.getCell(1, 2); // Left
 
         player = new Player();
         monster = new Monster();

@@ -38,14 +38,30 @@ public class PlayerMoveTest extends MoveTest {
 
     @Before
     public void setUp(){
-        board = new Board(5, 5); // A 5x5 board
-        player = new Player();
-        emptyCell = board.getCell(2, 2); // Middle of the board
-        wallCell = board.getCell(2, 3);
-        foodCell = board.getCell(3, 3);
-        monsterCell = board.getCell(4, 3);
-        playerCell = board.getCell(3, 2);
+        /* The Board is configured according to the drawing below.
+            01234
+            .....0
+            ..M..1
+            .FPE.2
+            ..W..3
+            .....4
 
+            . = empty cell
+            E = empty cell
+            W = wall cell
+            F = food cell
+            M = monster cell
+            P = player cell
+        */
+
+        board = new Board(5, 5); // A 5x5 board
+        monsterCell = board.getCell(2, 1); // Up
+        playerCell  = board.getCell(2, 2); // Middle of the board
+        wallCell    = board.getCell(2, 3); // Down
+        emptyCell   = board.getCell(3, 2); // Right
+        foodCell    = board.getCell(1, 2); // Left
+
+        player = new Player();
         monster = new Monster();
         food = new Food();
         wall = new Wall();
