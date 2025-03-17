@@ -27,7 +27,6 @@ public class PlayerMoveTest extends MoveTest {
     private Board board;
     private Player player;
     private PlayerMove aPlayerMove;
-    private Player anotherPlayer;
     private Cell emptyCell;
     private Cell wallCell;
     private Cell foodCell;
@@ -46,12 +45,10 @@ public class PlayerMoveTest extends MoveTest {
         foodCell = board.getCell(3, 3);
         monsterCell = board.getCell(4, 3);
         playerCell = board.getCell(3, 2);
-        //anotherPlayerCell = board.getCell();
 
         monster = new Monster();
         food = new Food();
         wall = new Wall();
-        anotherPlayer = new Player();
 
         // Place objects in the board
         wall.occupy(wallCell);
@@ -120,6 +117,7 @@ public class PlayerMoveTest extends MoveTest {
     @Test
     public void testPlayerMoveToMonster(){
         aPlayerMove = new PlayerMove(player, monsterCell);
+        assertTrue(aPlayerMove.playerDies());
         assertFalse(aPlayerMove.movePossible());
     }
 
