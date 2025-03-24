@@ -80,6 +80,12 @@ public class EngineTest extends GameTestCase {
         assertFalse(theEngine.inPlayingState());
         assertTrue(theEngine.inWonState());
         assertTrue(theEngine.inGameOverState());
+
+        /* Player Won --(Start)-> Starting */
+        assertTrue(theEngine.inWonState());
+        theEngine.start();
+        assertFalse(theEngine.inWonState());
+        assertTrue(theEngine.inStartingState());
     }
 
     /** A short path that ends in the player dying by moving onto a monster. */
@@ -116,5 +122,133 @@ public class EngineTest extends GameTestCase {
         assertFalse(theEngine.inPlayingState());
         assertTrue(theEngine.inDiedState());
         assertTrue(theEngine.inGameOverState());
+    }
+
+    /** Test possible sneak paths for the Starting state. */
+    @Test public void testSneakStarting() {
+        /* Starting --(PlayerMove)-> IGNORE */
+        assertTrue(theEngine.inStartingState());
+        theEngine.movePlayer(0, 1); // dy = 1  means  DOWN
+        assertTrue(theEngine.inStartingState());
+
+        /* Starting --(MonsterMove)-> IGNORE */
+        assertTrue(theEngine.inStartingState());
+        theEngine.moveMonster(theMonster, 0, -1); // dy = -1  means  UP
+        assertTrue(theEngine.inStartingState());
+
+        /* Starting --(Quit)-> IGNORE */
+        assertTrue(theEngine.inStartingState());
+        theEngine.quit();
+        assertTrue(theEngine.inStartingState());
+    }
+
+    /** Test possible sneak paths for the Playing state. */
+    @Test public void testSneakPlaying() {
+        /* Starting --(Start)-> Playing */
+        assertTrue(theEngine.inStartingState());
+        theEngine.start();
+        assertFalse(theEngine.inStartingState());
+        assertTrue(theEngine.inPlayingState());
+
+        /* Playing --(Start)-> IGNORE */
+        assertTrue(theEngine.inPlayingState());
+        theEngine.start();
+        assertTrue(theEngine.inPlayingState());
+    }
+
+    /** Test possible sneak paths for the Halted state. */
+    @Test public void testSneakHalted() {
+        /* Starting --(Start)-> Playing */
+        assertTrue(theEngine.inStartingState());
+        theEngine.start();
+        assertFalse(theEngine.inStartingState());
+        assertTrue(theEngine.inPlayingState());
+
+        /* Playing --(Quit)-> Halted */
+        assertTrue(theEngine.inPlayingState());
+        theEngine.quit();
+        assertFalse(theEngine.inPlayingState());
+        assertTrue(theEngine.inHaltedState());
+
+        /* Halted --(PlayerMove)-> IGNORE */
+        assertTrue(theEngine.inHaltedState());
+        theEngine.movePlayer(0, 1); // dy = 1  means  DOWN
+        assertTrue(theEngine.inHaltedState());
+
+        /* Halted --(MonsterMove)-> IGNORE */
+        assertTrue(theEngine.inHaltedState());
+        theEngine.moveMonster(theMonster, 0, 1);
+        assertTrue(theEngine.inHaltedState());
+
+        /* Halted --(Quit)-> IGNORE */
+        assertTrue(theEngine.inHaltedState());
+        theEngine.quit();
+        assertTrue(theEngine.inHaltedState());
+    }
+
+    /** Test possible sneak paths for the Player Won state. */
+    @Test public void testSneakPlayerWon() {
+        /* Starting --(Start)-> Playing */
+        assertTrue(theEngine.inStartingState());
+        theEngine.start();
+        assertFalse(theEngine.inStartingState());
+        assertTrue(theEngine.inPlayingState());
+
+        /* Playing --(PlayerMove)-> Playing */
+        assertTrue(theEngine.inPlayingState());
+        theEngine.movePlayer(-1, 0); // dx = -1  means  LEFT
+        assertTrue(theEngine.inPlayingState());
+
+        /* Playing --(PlayerMove)-> Player Won */
+        assertTrue(theEngine.inPlayingState());
+        theEngine.movePlayer(0, 1); // dy = 1  means  DOWN
+        assertFalse(theEngine.inPlayingState());
+        assertTrue(theEngine.inWonState());
+        assertTrue(theEngine.inGameOverState());
+
+        /* Player Won --(Quit)-> IGNORE */
+        assertTrue(theEngine.inWonState());
+        theEngine.quit();
+        assertTrue(theEngine.inWonState());
+
+        /* Player Won --(PlayerMove)-> IGNORE */
+        assertTrue(theEngine.inWonState());
+        theEngine.movePlayer(0, -1); // dy = -1  means  UP
+        assertTrue(theEngine.inWonState());
+
+        /* Player Won --(MonsterMove)-> IGNORE */
+        assertTrue(theEngine.inWonState());
+        theEngine.moveMonster(theMonster, 0, -1); // dy = -1  means  UP
+        assertTrue(theEngine.inWonState());
+    }
+
+    /** Test possible sneak paths for the Player Died state. */
+    @Test public void testSneakPlayerDied() {
+        /* Starting --(Start)-> Playing */
+        assertTrue(theEngine.inStartingState());
+        theEngine.start();
+        assertFalse(theEngine.inStartingState());
+        assertTrue(theEngine.inPlayingState());
+
+        /* Playing --(PlayerMove)-> Player Died */
+        assertTrue(theEngine.inPlayingState());
+        theEngine.movePlayer(0, 1); // dx = 1  means  DOWN
+        assertFalse(theEngine.inPlayingState());
+        assertTrue(theEngine.inDiedState());
+
+        /* Player Died --(Quit)-> IGNORE */
+        assertTrue(theEngine.inDiedState());
+        theEngine.quit();
+        assertTrue(theEngine.inDiedState());
+
+        /* Player Died --(PlayerMove)-> IGNORE */
+        assertTrue(theEngine.inDiedState());
+        theEngine.movePlayer(0, -1); // dy = -1  means  UP
+        assertTrue(theEngine.inDiedState());
+
+        /* Player Died --(MonsterMove)-> IGNORE */
+        assertTrue(theEngine.inDiedState());
+        theEngine.moveMonster(theMonster, 0, -1); // dy = -1  means  UP
+        assertTrue(theEngine.inDiedState());
     }
 }
