@@ -1,6 +1,7 @@
 package jpacman.model;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -30,12 +31,90 @@ public class EngineTest extends GameTestCase {
      * created in the superclass.
      */
     @Before public void setUp() {
+        /** Assume the following map.
+                0W0
+                FP0
+                FM0
+                0WM
+         */
         theEngine = new Engine(theGame);
         assertTrue(theEngine.inStartingState());
     }
 
-     // Create state model test cases.
-     @Test public void addTestCasesHere() {}
 
+    /** The long path that covers most transitions,
+     * and ends in the player reaching the winning end state.
+     */
+    @Test public void testLongAndWinning() {
+        /* Starting --(Start)-> Playing */
+        assertTrue(theEngine.inStartingState());
+        theEngine.start();
+        assertFalse(theEngine.inStartingState());
+        assertTrue(theEngine.inPlayingState());
 
+        /* Playing --(Quit)-> Halted */
+        assertTrue(theEngine.inPlayingState());
+        theEngine.quit();
+        assertFalse(theEngine.inPlayingState());
+        assertTrue(theEngine.inHaltedState());
+
+        /* Halted --(Start)-> Playing */
+        assertTrue(theEngine.inHaltedState());
+        theEngine.start();
+        assertFalse(theEngine.inHaltedState());
+        assertTrue(theEngine.inPlayingState());
+
+        /* Playing --(PlayerMove)-> Playing */
+        assertTrue(theEngine.inPlayingState());
+        theEngine.movePlayer(-1, 0); // dx = -1  means  LEFT
+        assertTrue(theEngine.inPlayingState());
+
+        /* Playing --(MonsterMove)-> Playing */
+        assertTrue(theEngine.inPlayingState());
+        theEngine.moveMonster(theMonster, 0, 1);
+        assertTrue(theEngine.inPlayingState());
+
+        /* Playing --(PlayerMove)-> Player Won */
+        assertTrue(theEngine.inPlayingState());
+        theEngine.movePlayer(0, 1); // dy = 1  means  DOWN
+        assertFalse(theEngine.inPlayingState());
+        assertTrue(theEngine.inWonState());
+        assertTrue(theEngine.inGameOverState());
+    }
+
+    /** A short path that ends in the player dying by moving onto a monster. */
+    @Test public void testPlayerDiesToMonster() {
+        /* Starting --(Start)-> Playing */
+        assertTrue(theEngine.inStartingState());
+        theEngine.start();
+        assertFalse(theEngine.inStartingState());
+        assertTrue(theEngine.inPlayingState());
+
+        /* Playing --(PlayerMove)-> Player Died */
+        assertTrue(theEngine.inPlayingState());
+        // Move the player into the monster.
+        theEngine.movePlayer(0, 1); // dy = 1  means  DOWN
+        assertFalse(theEngine.inPlayingState());
+        assertTrue(theEngine.inDiedState());
+        assertTrue(theEngine.inGameOverState());
+    }
+
+    /** A short path that ends in a monster killing the player by moving
+     * onto them.
+     */
+    @Test public void testMonsterKillsPlayer() {
+        /* Starting --(Start)-> Playing */
+        assertTrue(theEngine.inStartingState());
+        theEngine.start();
+        assertFalse(theEngine.inStartingState());
+        assertTrue(theEngine.inPlayingState());
+
+        /* Playing --(MonsterMove)-> Player Died */
+        assertTrue(theEngine.inPlayingState());
+        // Move the monster into the player.
+        theEngine.moveMonster(theMonster, 0, -1); // dy = -1  means  UP
+        assertFalse(theEngine.inPlayingState());
+        assertTrue(theEngine.inDiedState());
+        assertTrue(theEngine.inGameOverState());
+    }
 }
