@@ -35,6 +35,7 @@ public class PlayerMoveTest extends MoveTest {
     private Monster monster;
     private Food food;
     private Wall wall;
+    private Cell originalCell;
 
     @Before
     public void setUp(){
@@ -123,6 +124,7 @@ public class PlayerMoveTest extends MoveTest {
     @Test
     public void testPlayerMoveToFood(){
         aPlayerMove = new PlayerMove(player, foodCell);
+        assertEquals(0, player.getPointsEaten());
         assertTrue(aPlayerMove.movePossible());
         // apply the move
         aPlayerMove.apply();
@@ -148,6 +150,41 @@ public class PlayerMoveTest extends MoveTest {
         // A NULL Cell represents an out-of-bounds Cell w.r.t. the Board.
         aPlayerMove = new PlayerMove(player, null);
         assertFalse(aPlayerMove.movePossible());
+    }
+
+    @Test
+    public void testUndoSinglePlayerMove(){
+        originalCell = player.getLocation();
+        aPlayerMove = new PlayerMove(player, emptyCell);
+        // aPlayerMove.precomputeEffects();
+        aPlayerMove.apply();
+        assertEquals(emptyCell, player.getLocation());
+        assertTrue(aPlayerMove.moveDone());
+        // Now we undo the move
+        aPlayerMove.undo();
+
+        // Verify that the player is back at the original cell
+        assertEquals(originalCell, player.getLocation());
+        assertFalse(emptyCell.isOccupied());
+    }
+
+    @Test
+    public void testUndoEatingFruitPlayer(){
+        // store the original position
+        originalCell = player.getLocation();
+        // make the move
+        aPlayerMove = new PlayerMove(player, foodCell);
+        aPlayerMove.apply();
+        // check that the position changed and that the score went up
+        assertEquals(1, player.getPointsEaten());
+        assertEquals(foodCell, player.getLocation());
+        // now undo the move
+        aPlayerMove.undo();
+        // Verify that the player is back at the original cell, we still have food and the score went down
+        assertEquals(0, player.getPointsEaten());
+        assertEquals(originalCell, player.getLocation());
+        assertTrue(foodCell.isOccupied());
+        assertEquals(foodCell.getInhabitant().guestType(), 'F');
     }
 
 

@@ -4,8 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 import org.junit.Test;
+import org.junit.Before;
 
 /**
  * This class offers a test suite for the Move class hierarchy
@@ -24,7 +26,11 @@ public abstract class MoveTest extends GameTestCase {
     /**
      * The move we make.
      */
-    private Move aMove;
+    private Move move;
+    private MovingGuest mover;
+    private Player player;
+    private Cell fromCell, toCell;
+    private Board board;
 
     /**
      * A simple test case that should hold for all moves:
@@ -35,26 +41,26 @@ public abstract class MoveTest extends GameTestCase {
      */
     @Test public void testApply() {
         // create move, mover, and cell to be moved to.
-        aMove = createMove(emptyCell);
-        MovingGuest mover = aMove.getMovingGuest();
+        move = createMove(emptyCell);
+        mover = move.getMovingGuest();
         Cell location1 = mover.getLocation();
         assertNotNull(mover);
         assertNotNull(location1);
 
         // status before.
-        assertTrue(aMove.movePossible());
+        assertTrue(move.movePossible());
         assertEquals(location1, mover.getLocation());
         assertEquals(mover, location1.getInhabitant());
 
         // do the move.
-        aMove.apply();
+        move.apply();
         Cell location2 = mover.getLocation();
         assertNotNull(location2);
         assertFalse(location1.isOccupied());
         assertEquals(emptyCell, location2);
         assertEquals(mover, location2.getInhabitant());
-        assertTrue(aMove.moveDone());
-        assertFalse(aMove.movePossible());
+        assertTrue(move.moveDone());
+        assertFalse(move.movePossible());
 
     }
 

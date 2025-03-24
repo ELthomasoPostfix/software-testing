@@ -42,6 +42,9 @@ public abstract class Move {
      */
     private boolean initialized = false;
 
+    private Cell previousLocation; // NEW: store previous location of the mover
+    private Guest previousGuest; // NEW: Store the previous guest occupying the 'to' cell
+
     /**
      * Create a move from a MovingGuest to a particular Cell.
      * Precondition: the moving guest occupies a cell.
@@ -177,6 +180,10 @@ public abstract class Move {
 
         Cell fromCell = mover.getLocation();
         Guest targetGuest = to.getInhabitant();
+
+        previousLocation = fromCell; // Store previous location
+        previousGuest = targetGuest; // Store previous inhabitant of 'to'
+
         if (targetGuest != null) {
             // actually only necessary for food if
             // the player moves...
@@ -190,6 +197,23 @@ public abstract class Move {
         assert initialized();
     }
 
+    public void undo() {
+        assert previousLocation != null : "No previous location available";
+        assert moveDone() : "Cannot undo a move that hasn't been done yet.";
+
+        mover.deoccupy();
+        // restore the original guest at the 'to' cell
+        if (previousGuest != null) {
+            previousGuest.occupy(to);
+            // if the previous cell owner was a food token and we are moving a player back, we need to revert the score
+            if(previousGuest.guestType() == 'F' && mover.guestType() == 'P') {
+                ((Player)mover).eat(-((Food)previousGuest).getPoints());
+            }
+        }
+        mover.occupy(previousLocation); // move the guest back to ots original position
+        // the move should be undone successfully
+        assert !moveDone();
+    }
     /**
      * Invoke this method while precomputing the effects of this move if it is
      * detected that the player will die because of this move. Precondition:
