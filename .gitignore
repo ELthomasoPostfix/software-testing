@@ -1,2 +1,5 @@
 # Avoid maven build system artefacts.
 target/
+
+# Ignore java .class files
+*.class
