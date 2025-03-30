@@ -29,8 +29,19 @@ jobs:
     # Use Xvfb to circumvent having to run UI dependencies in headless mode during testing.
     - run: xvfb-run mvn package
     - run: xvfb-run mvn clean site
+    # Run mutation testing
+    # Mutation coverage suffers if GUI is run in headless mode.
+    - run: python3 -m venv venv
+    - run: source venv/bin/activate
+    - run: pip3 install littledarwin setuptools
+    - run: python3 -m littledarwin -m -b -p src/main/java/jpacman/ -t . -c mvn,clean,test
     - uses: actions/upload-artifact@v4
       if: failure()
       with:
         name: Linux_Maven_Target
         path: target/
+    - uses: actions/upload-artifact@v4
+      with:
+        name: Linux_LittleDarwin
+        path: LittleDarwinResults/
+  
