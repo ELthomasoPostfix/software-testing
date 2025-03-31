@@ -1,5 +1,7 @@
 package jpacman.model;
 
+import java.util.Vector;
+
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
@@ -250,5 +252,34 @@ public class EngineTest extends GameTestCase {
         assertTrue(theEngine.inDiedState());
         theEngine.moveMonster(theMonster, 0, -1); // dy = -1  means  UP
         assertTrue(theEngine.inDiedState());
+    }
+
+    public interface AssertionErrorBlock {
+        public void block() throws AssertionError;
+    }
+
+    /* Return true iff. the given lambda throws an assertion error, else false.
+
+        I can't find JUnit's assertThrows or equivalent, so this ugliness it is.
+     */
+    public boolean throwsAssertion(AssertionErrorBlock block) {
+        try {
+            block.block();
+        } catch (AssertionError e) {
+            return true;
+        }
+        return false;
+    }
+
+    /** Guard against an Engine.invariant mutation. */
+    @Test public void testMutatedInStartingState() {
+        String[] NO_FOOD_MAP = new String[]{
+            "P"
+        };
+        Game noFoodGame = new Game(NO_FOOD_MAP);
+
+        assertTrue(throwsAssertion(() -> {
+            Engine noFoodEngine = new Engine(noFoodGame);
+        }));
     }
 }
