@@ -28,9 +28,10 @@ jobs:
     - run: python3 fuzzer.py --TIME 10
       working-directory: ./src/fuzz/
     # Either MAX xor TIME should be specified, not both nor neither.
+    # Note: "$? -ne 2" requires that the fuzzer script should fail with exit code 2 due to invalid args.
     - run: python3 fuzzer.py ||
         { if [ $? -ne 2 ]; then exit 1; fi }
       working-directory: ./src/fuzz/
     - run: python3 fuzzer.py --TIME 10 --MAX 14 ||
-        { if [ $? -ne 0 ]; then exit 1; fi }
+        { if [ $? -ne 2 ]; then exit 1; fi }
       working-directory: ./src/fuzz/
