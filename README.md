@@ -27,3 +27,8 @@ mvn clean package
 # (2) Run the entrypoint / main class method
 java -cp target/jpacman-3.0.1.jar jpacman.controller.Pacman
 ```
+
+## Fuzzing
+
+Assignment 06 requires us to write a black box fuzzer in any language.
+See the [sub README](/src/fuzz/README.md) for more details.
