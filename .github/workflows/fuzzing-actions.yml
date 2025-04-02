@@ -21,13 +21,16 @@ jobs:
     - run: java --version
 
     # Run fuzzing commands.
-    - run: cd src/fuzz/
     # Run 10 fuzzing iterations.
     - run: python3 fuzzer.py --MAX 10
+      working-directory: ./src/fuzz/
     # Run fuzzing iterations for 10 seconds.
     - run: python3 fuzzer.py --TIME 10
+      working-directory: ./src/fuzz/
     # Either MAX xor TIME should be specified, not both nor neither.
     - run: python3 fuzzer.py ||
         { if [ $? -ne 2 ]; then exit 1; fi }
+      working-directory: ./src/fuzz/
     - run: python3 fuzzer.py --TIME 10 --MAX 14 ||
         { if [ $? -ne 2 ]; then exit 1; fi }
+      working-directory: ./src/fuzz/
