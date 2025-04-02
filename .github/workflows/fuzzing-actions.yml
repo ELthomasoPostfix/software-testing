@@ -32,5 +32,5 @@ jobs:
         { if [ $? -ne 2 ]; then exit 1; fi }
       working-directory: ./src/fuzz/
     - run: python3 fuzzer.py --TIME 10 --MAX 14 ||
-        { if [ $? -ne 2 ]; then exit 1; fi }
+        { if [ $? -ne 0 ]; then exit 1; fi }
       working-directory: ./src/fuzz/
