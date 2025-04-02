@@ -37,5 +37,11 @@ PATH_PACMAN_JAR: str = "jpacman-3.0.1.jar"
 """The path to the map file generated furing fuzzing."""
 PATH_FUZZ_MAP: str = "fuzz.map"
 
-"""The path to the file to dump Pacman error messages into."""
-PATH_PACMAN_ERR: str = "pacman-error.txt"
+"""The path to the CSV file to dump Pacman error messages into."""
+PATH_PACMAN_ERR_CSV: str = "pacman-error.csv"
+
+"""The maximum random length of the fuzzed action sequence."""
+LEN_RND_ACTIONS: int = 4
+
+"""The maximum random length of the fuzzed map file contents."""
+LEN_RND_MAP: int = 100

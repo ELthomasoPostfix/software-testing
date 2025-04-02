@@ -1,6 +1,7 @@
 from typing import Callable, Union
 import subprocess
 import argparse
+import random
 import time
 import os
 
@@ -58,18 +59,27 @@ if __name__ == "__main__":
         raise RuntimeError("No quit condition: neither MAX nor TIME were defined.")
 
     print(f"Start fuzzing at: {time.ctime()}")
-    with open(cte.PATH_PACMAN_ERR, 'w') as err_file:
+    with open(cte.PATH_PACMAN_ERR_CSV, 'w') as err_file:
         while notdone(curr_progress, stop_progress):
 
-            # TODO: Generate (FUZZ) random actions. This should be a string of valid ACTIONS.
-            fuzz_actions: str = "".join(cte.ACTIONS)
+            # Generate (FUZZ) random actions.
+            # This should be a string of valid ACTIONS.
+            # Randomize the action sequence length to expose bugs related to:
+            # zero, one, many, etc. actions.
+            fuzz_actions_len: int = random.randint(0, cte.LEN_RND_ACTIONS)
+            fuzz_actions: str = "".join(random.choices(cte.ACTIONS, k=fuzz_actions_len))
 
             # Use a file context to close the file even in case of exceptions.
-            with open(cte.PATH_FUZZ_MAP, 'w') as map_file:
-                fuzz_map = "" # TODO: Generate (FUZZ) random map contents. This should be a random byte string?
+            fuzz_map: bytes = b''
+            with open(cte.PATH_FUZZ_MAP, 'wb') as map_file:
+                # Generate (FUZZ) random map contents.
+                # This should be a random byte string, and maybe a valid map.
+                fuzz_map_len: int = random.randint(0, cte.LEN_RND_MAP)
+                fuzz_map: bytes = random.randbytes(fuzz_map_len)
 
                 map_file.write(fuzz_map)
 
+            # Use `subprocess.run` as it is the most up-to-date approach.
             result: subprocess.CompletedProcess = subprocess.run([
                 "java", "-jar", cte.PATH_PACMAN_JAR, cte.PATH_FUZZ_MAP, fuzz_actions
             ])
@@ -83,13 +93,13 @@ if __name__ == "__main__":
             elif code == cte.CODE_REJ: pass
             # Pacman failed with an error.
             # Report these Pacman inputs, they indicate a potential bug.
-            elif code == cte.CODE_ERR:
-                # TODO: Implement dumping the error to disk?
-                # FIXME: Does the error message appear in stderr or stdout?
-                dumptext = ""
-                err_file.write(dumptext)
+            elif code == cte.CODE_ERR: pass
             else:
                 raise RuntimeError(f"Unknown Pacman exit code: {code}")
+
+            # Dump results to file.
+            dumptext = f"{code},{fuzz_actions},{fuzz_map}\n"
+            err_file.write(dumptext)
 
             curr_progress = update(curr_progress)
     print(f"Stop fuzzing at:  {time.ctime()}")
