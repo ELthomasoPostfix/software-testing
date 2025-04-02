@@ -1,0 +1,33 @@
+name: ci_fuzzing
+
+on:
+  # Allow manual workflow triggering
+  workflow_dispatch:
+  push:
+    paths:
+      - "**.py"
+
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - run: sudo apt-get update
+    # -y assumes yes to all prompts; install packages without confirmation.
+    - run: sudo apt-get install -y openjdk-11-jdk=11.0.26+4-1ubuntu1~24.04
+
+    # Check versions of installed packages.
+    - run: java --version
+
+    # Run fuzzing commands.
+    - run: cd src/fuzz/
+    # Run 10 fuzzing iterations.
+    - run: python3 fuzzer.py --MAX 10
+    # Run fuzzing iterations for 10 seconds.
+    - run: python3 fuzzer.py --TIME 10
+    # Either MAX xor TIME should be specified, not both nor neither.
+    - run: python3 fuzzer.py ||
+        { if [ $? -ne 2 ]; then exit 1; fi }
+    - run: python3 fuzzer.py --TIME 10 --MAX 14 ||
+        { if [ $? -ne 2 ]; then exit 1; fi }
