@@ -23,6 +23,7 @@ jobs:
     # Run fuzzing commands.
     # Do a dry run of the boilerplate.
     - run: python3 fuzzer.py --NOOP --MAX 10
+      working-directory: ./src/fuzz/
     # Run 10 fuzzing iterations.
     - run: python3 fuzzer.py --RND --MAX 10
       working-directory: ./src/fuzz/
