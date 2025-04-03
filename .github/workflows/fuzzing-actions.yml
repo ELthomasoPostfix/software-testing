@@ -21,17 +21,27 @@ jobs:
     - run: java --version
 
     # Run fuzzing commands.
+    # Do a dry run of the boilerplate.
+    - run: python3 fuzzer.py --NOOP --MAX 10
     # Run 10 fuzzing iterations.
-    - run: python3 fuzzer.py --MAX 10
+    - run: python3 fuzzer.py --RND --MAX 10
       working-directory: ./src/fuzz/
     # Run fuzzing iterations for 10 seconds.
-    - run: python3 fuzzer.py --TIME 10
+    - run: python3 fuzzer.py --RND --TIME 10
       working-directory: ./src/fuzz/
-    # Either MAX xor TIME should be specified, not both nor neither.
     # Note: "$? -ne 2" requires that the fuzzer script should fail with exit code 2 due to invalid args.
+    # At least one fuzzer type should be specified.
     - run: python3 fuzzer.py ||
         { if [ $? -ne 2 ]; then exit 1; fi }
       working-directory: ./src/fuzz/
-    - run: python3 fuzzer.py --TIME 10 --MAX 14 ||
+    # No more than one fuzzer type should be specified.
+    - run: python3 fuzzer.py --NOOP --RND --MAX 10 ||
+        { if [ $? -ne 2 ]; then exit 1; fi }
+      working-directory: ./src/fuzz/
+    # Either MAX xor TIME should be specified, not both nor neither.
+    - run: python3 fuzzer.py --NOOP ||
+        { if [ $? -ne 2 ]; then exit 1; fi }
+      working-directory: ./src/fuzz/
+    - run: python3 fuzzer.py --NOOP --TIME 10 --MAX 14 ||
         { if [ $? -ne 2 ]; then exit 1; fi }
       working-directory: ./src/fuzz/
