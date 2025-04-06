@@ -21,6 +21,17 @@ ACTIONS: List[str] = [
     "Q", # Quit (Halt)      Pacman.quit()
     "W"  # Wait (Sleep)     Thread.sleep(50)
 ]
+ACTIONS_EXIT: str = "E"
+assert ACTIONS_EXIT in ACTIONS, "The exit action is not part of the valid actions."
+
+"""The list of valid Pacman cell characters."""
+CELLS: List[str] = [
+    "0", # An empty cell.
+    "W", # A Wall cell.
+    "F", # A Food cell.
+    "P", # A Player cell.
+    "M", # A Monster cell.
+]
 
 """Exit code for a normal termination."""
 CODE_OK: int = 0
