@@ -4,6 +4,7 @@ import time
 import os
 
 from random_fuzzer import random_fuzzer
+from mutation_fuzzer import mutation_fuzzer
 import constants as cte
 
 
@@ -30,6 +31,8 @@ group = parser.add_argument_group("Fuzzer Type",
 exclusive_group = group.add_mutually_exclusive_group(required=True)
 exclusive_group.add_argument("--RND", action="store_true", required=False,
     help="The completely random fuzzer implementation.")
+exclusive_group.add_argument("--MUT", action="store_true", required=False,
+    help="The mutation fuzzer implementation.")
 exclusive_group.add_argument("--NOOP", action="store_true", required=False,
     help="Don't run any fuzzer, just do a dry run of the boilerplate around the fuzzer.")
 
@@ -82,6 +85,17 @@ if __name__ == "__main__":
     # Run the completely random fuzzer.
     elif args.RND:
         random_fuzzer(curr_progress, stop_progress, update, notdone)
+    elif args.MUT:
+        # Use the sample map as the seed map.
+        with open("sample.map") as imap:
+            seed_map = [ row.strip() for row in imap.readlines() ]
+            seed_act = "SUELDUWRUESLUWDE"
+            nr_mutations_min: int = 1
+            nr_mutations_max: int = 10
+            mutation_fuzzer(
+                curr_progress, stop_progress, update, notdone,
+                seed_map, seed_act, nr_mutations_min, nr_mutations_max,
+            )
     # Should never reach here; add an assertion as a fallthrough.
     else:
         raise RuntimeError("No black-box fuzzer type was specified; should never reach here.")
