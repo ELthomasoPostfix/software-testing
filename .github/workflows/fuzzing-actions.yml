@@ -20,12 +20,19 @@ jobs:
     # Check versions of installed packages.
     - run: java --version
 
+    # Run fuzzer tests.
+    - run: python3 test.py
+      working-directory: ./src/fuzz/
+
     # Run fuzzing commands.
     # Do a dry run of the boilerplate.
     - run: python3 fuzzer.py --NOOP --MAX 10
       working-directory: ./src/fuzz/
-    # Run 10 fuzzing iterations.
+    # Run 10 completely random fuzzing iterations.
     - run: python3 fuzzer.py --RND --MAX 10
+      working-directory: ./src/fuzz/
+    # Run 10 mutation fuzzing iterations.
+    - run: python3 fuzzer.py --MUT --MAX 10
       working-directory: ./src/fuzz/
     # Run fuzzing iterations for 10 seconds.
     - run: python3 fuzzer.py --RND --TIME 10
