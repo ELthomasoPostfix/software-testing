@@ -1,6 +1,6 @@
 # software-testing
 
-A repo for the testing assignments for the course Software Testing (Master Computer Science 2001WETSWT) at the University of Antwerp in the academic year of 2024-2025. This is a group project, the members are Niels Van der Planken and Thomas Gueutal.
+A repo for the testing assignments for the course Software Testing (Master Computer Science 2001WETSWT) at the University of Antwerp in the academic year of 2024-2025. This is a group project, the members are [Niels Van der Planken](https://github.com/N1ELS2000) and [Thomas Gueutal](https://github.com/ELthomasoPostfix).
 
 These projects make use of the JPacman-Framework project, provided to us by the teaching assistants as a zip-file of the source code. The original repo may be found [here](https://github.com/SERG-Delft/jpacman-framework).
 
@@ -32,3 +32,8 @@ java -cp target/jpacman-3.0.1.jar jpacman.controller.Pacman
 
 Assignment 06 requires us to write a black box fuzzer in any language.
 See the [sub README](/src/fuzz/README.md) for more details.
+
+## Industrial Guest Lectures
+
+The Software Testing course also features industrial guest lectures. See the [sub README](/guest-lectures/README.md)
+ for more details.
