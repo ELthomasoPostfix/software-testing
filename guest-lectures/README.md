@@ -11,6 +11,9 @@ This directory contains any documents related to the presentations that we get a
 
 This session is a hands-on lab session about front-end testing with cypress. Prior to the session, we are tasked with installing some software.
 
+The github links to the solution code of the practice session follow.
+- https://github.com/bignited/Training-Cypress.git
+- https://github.com/bignited/Training-Frontend-Angular.git
 
 ### NodeJS
 
@@ -56,3 +59,9 @@ Installing cypress is done via npm, so NodeJS must be installed first. We then r
 # "--save-dev" add cypress to "devDependencies" in package.json
 npm install cypress --save-dev
 ```
+
+## Session 03 - 05/05/2025
+
+## Session 04 - 12/05/2025
+
+## Session 05 - 19/05/2025

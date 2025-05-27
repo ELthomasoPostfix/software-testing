@@ -4,6 +4,21 @@ A repo for the testing assignments for the course Software Testing (Master Compu
 
 These projects make use of the JPacman-Framework project, provided to us by the teaching assistants as a zip-file of the source code. The original repo may be found [here](https://github.com/SERG-Delft/jpacman-framework).
 
+## Artifacts
+
+### Assignments & Reports
+
+The assignment ([here](/assignments)) and corresponding report ([here](/reports)) pdfs are included in the repository for easy access.
+
+### Industrial Guest Lectures
+
+The Software Testing course also features industrial guest lectures. See the [sub README](/guest-lectures/README.md) for more details.
+
+### Articles
+
+Several articles are also part of the course material. They are included for completeness. See [this subdirectory](/articles). Beware that there may be supplementary videos attached to some articles, available on the course blackboard page 
+
+
 ## Basic Workflow
 
 The basic workflow for this assignment is to run the tests and generate the site documentation.
@@ -32,8 +47,3 @@ java -cp target/jpacman-3.0.1.jar jpacman.controller.Pacman
 
 Assignment 06 requires us to write a black box fuzzer in any language.
 See the [sub README](/src/fuzz/README.md) for more details.
-
-## Industrial Guest Lectures
-
-The Software Testing course also features industrial guest lectures. See the [sub README](/guest-lectures/README.md)
- for more details.
